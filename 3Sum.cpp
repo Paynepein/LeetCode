@@ -14,7 +14,6 @@ public:
 			return result;
 		}
 		sort(nums.begin(), nums.end());
-		p(nums);
 		int len = nums.size();
 		for (int i = 0; i < len - 2;) {
 			unordered_map<int, int> map;
@@ -48,21 +47,6 @@ public:
 			do {
 				i++;
 			} while(nums[i] == nums[i-1]);
-			// for (int j = i+1; j < nums.size() - 1; j++) {
-			// 	if (map.find(nums[j]) == map.end()) {
-			// 		map[-nums[i] - nums[j]] = j;
-			// 	} else {
-			// 		int num1 = nums[i];
-			// 		int num2 = nums[j];
-			// 		int num3 = nums[map[nums[j]]];
-			// 		res.push_back(num1);
-			// 		res.push_back(num2);
-			// 		res.push_back(num3);
-			// 		sort(res.begin(), res.end());
-			// 		result.push_back(res);
-			// 		res.clear();
-			// 	}
-			// }
 		}
 		return result;
 	}
