@@ -24,7 +24,7 @@ public:
         				res.push_back(nums[k]);
         				res.push_back(tmp);
         				// sort(res.begin(), res.end());
-                        // Bubble(res);
+                        Bubble(res);
         				result.push_back(res);
         			}
         		}
@@ -34,19 +34,29 @@ public:
     }
 
     void Bubble(vector<int> &res) {
+    //     for (int i = 0; i < res.size(); i++) {
+    //     cout<<res[i]<<" ";
+    // }
     	int number = res.size();
+        // cout<<endl<<"number="<<number<<endl;
     	int last = 0;
-    	for (int i = 0; i < number-2;) {
+    	for (int i = 0; i < number-1;) {
+            last = number-1;
     		for (int j = number-1; j > i; j--) {
     			if (res[j] < res[j-1]) {
     				int tmp = res[j];
-    				res[j] = res[j+1];
-    				res[j+1] = tmp;
+    				res[j] = res[j-1];
+    				res[j-1] = tmp;
     				last = j;
     			}
     		}
     		i = last;
     	}
+        // cout<<endl;
+    //     for (int i = 0; i < res.size(); i++) {
+    //     cout<<res[i]<<" ";
+    // }
+
     }
 };
 
@@ -55,15 +65,18 @@ int main() {
 	int arr[] = {1,0,-1,0,-2,2};
 	vector<int> vec(arr,arr+(sizeof(arr)/sizeof(int)));
 	vector<vector<int> > res = a.FourSum(vec, 0);
-	// for (int i = 0; i < res.size(); i++) {
-	// 	vector<int> tmpVec = res[i];
- //        for (int j = 0; j < tmpVec.size(); j++) {
- //            cout<<tmpVec[j]<<" ";
- //        }
- //        cout<<endl;
-	// }  
+	for (int i = 0; i < res.size(); i++) {
+		vector<int> tmpVec = res[i];
+        for (int j = 0; j < tmpVec.size(); j++) {
+            cout<<tmpVec[j]<<" ";
+        }
+        cout<<endl;
+	}  
  //    cout<<"end";
-
-    for (int i = )
+    // a.Bubble(vec);
+    // for (int i = 0; i < vec.size(); i++) {
+    //     cout<<vec[i]<<" ";
+    // }
+    // cout<<"end"<<endl;
 	return 0;
 }
