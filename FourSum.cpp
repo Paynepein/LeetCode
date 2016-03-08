@@ -6,7 +6,7 @@ using namespace std;
 
 class Solution {
 public:
-    vector<vector<int> > FourSum(vector<int>& nums, int target) {
+    vector<vector<int> > fourSum(vector<int>& nums, int target) {
     	int length = nums.size();
         vector<vector<int> > result;
         for (int i = 0; i < length-3; i++) {
@@ -23,40 +23,13 @@ public:
         				res.push_back(nums[j]);
         				res.push_back(nums[k]);
         				res.push_back(tmp);
-        				// sort(res.begin(), res.end());
-                        Bubble(res);
+        				sort(res.begin(), res.end());
         				result.push_back(res);
         			}
         		}
         	}
         }
         return result;
-    }
-
-    void Bubble(vector<int> &res) {
-    //     for (int i = 0; i < res.size(); i++) {
-    //     cout<<res[i]<<" ";
-    // }
-    	int number = res.size();
-        // cout<<endl<<"number="<<number<<endl;
-    	int last = 0;
-    	for (int i = 0; i < number-1;) {
-            last = number-1;
-    		for (int j = number-1; j > i; j--) {
-    			if (res[j] < res[j-1]) {
-    				int tmp = res[j];
-    				res[j] = res[j-1];
-    				res[j-1] = tmp;
-    				last = j;
-    			}
-    		}
-    		i = last;
-    	}
-        // cout<<endl;
-    //     for (int i = 0; i < res.size(); i++) {
-    //     cout<<res[i]<<" ";
-    // }
-
     }
 };
 
@@ -72,11 +45,5 @@ int main() {
         }
         cout<<endl;
 	}  
- //    cout<<"end";
-    // a.Bubble(vec);
-    // for (int i = 0; i < vec.size(); i++) {
-    //     cout<<vec[i]<<" ";
-    // }
-    // cout<<"end"<<endl;
 	return 0;
 }

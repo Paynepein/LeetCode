@@ -1,45 +1,85 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
+#include <algorithm>
 
 using namespace std;
 
 class Solution {
 public:
-	vector<vector<int>> threeSum(vector<int>& nums) {
-		vector<vector<int>> result;
-		for (int i = 0; i < nums.size() - 2; i++) {
+	vector<vector<int> > threeSum(vector<int>& nums) {
+		vector<vector<int> > result;
+		vector<int> res(3);
+		if (nums.size()<3) {
+			return result;
+		}
+		sort(nums.begin(), nums.end());
+		p(nums);
+		int len = nums.size();
+		for (int i = 0; i < len - 2;) {
 			unordered_map<int, int> map;
-			vector<int> res;
-			for (int j = i+1; j < nums.size() - 1; j++) {
-				if (map.find(nums[j]) == map.end()) {
-					map[-nums[i] - nums[j]] = j;
-				} else {
-					int num1 = nums[i];
-					int num2 = nums[map[nums[j]]] < nums[j] ? nums[map[nums[j]]] : nums[j];
-					int num3 = nums[map[nums[j]]] < nums[j] ? nums[j] : nums[map[nums[j]]];
-					if (nums[i] > num3) {
-						num1 = num2;
-						num2 = num3;
-						num3 = nums[i];
-					} else if (nums[i] > num2) {
-						num1 = num2;
-						num2 = nums[i];
+			int start = i+1, end = len-1;
+			while(start < end) {
+				int sum = nums[start] + nums[end] + nums[i];
+				if (sum == 0) {
+					res[0] = nums[i];
+					res[1] = nums[start];
+					res[2] = nums[end];
+					sort(res.begin(), res.end());
+					result.push_back(res);
+					start++;
+					end--;	
+					while (nums[start] == nums[start-1]) {
+						start++;
 					}
-					res.push_back(num1);
-					res.push_back(num2);
-					res.push_back(num3);
+					while (nums[end] == nums[end+1]) {
+						end--;
+					}
+				} else if (sum < 0) {
+					do {
+						start++;
+					} while(nums[start] == nums[start-1]);
+				} else {
+					do {
+						end--;
+					} while(nums[end] == nums[end+1]);
 				}
 			}
-			result.push_back(res);
+			do {
+				i++;
+			} while(nums[i] == nums[i-1]);
+			// for (int j = i+1; j < nums.size() - 1; j++) {
+			// 	if (map.find(nums[j]) == map.end()) {
+			// 		map[-nums[i] - nums[j]] = j;
+			// 	} else {
+			// 		int num1 = nums[i];
+			// 		int num2 = nums[j];
+			// 		int num3 = nums[map[nums[j]]];
+			// 		res.push_back(num1);
+			// 		res.push_back(num2);
+			// 		res.push_back(num3);
+			// 		sort(res.begin(), res.end());
+			// 		result.push_back(res);
+			// 		res.clear();
+			// 	}
+			// }
 		}
 		return result;
+	}
+
+	void p(vector<int> vec) {
+		cout<<endl<<"display:"<<endl;
+		for (int i = 0; i < vec.size(); i++) {
+			cout<<vec[i]<<" ";
+		}
+		cout<<endl;
 	}
 };
 int main() {
 	Solution a;
-	vector<vector<int>> res;
-	vector<int> nums = {-1,0,1,2,-1,4};
+	vector<vector<int> > res;
+	int arr[] = {-1,0,1,2,-1,4};
+	vector<int> nums(arr, arr+6);
 	res = a.threeSum(nums);
 	for (int i = 0; i < res.size(); i++) {
 		vector<int> tmp = res[i];
@@ -48,5 +88,6 @@ int main() {
 		}
 		cout<<endl;
 	}
+	cout<<"sum="<<res.size()<<endl;
 	return 0;
 }
