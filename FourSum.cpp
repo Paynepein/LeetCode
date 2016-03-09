@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 #include <algorithm>
 using namespace std;
 
@@ -15,56 +16,57 @@ public:
         sort(nums.begin(), nums.end());
         unordered_map<int, vector<pair<int, int> > > sumMap;
         for (int i = 0; i < length; i++) {
-            for (j = i+1; j < length; j++) {
+            for (int j = i+1; j < length; j++) {
                 int tmpTarget = nums[i] + nums[j];
-                if (sumMap.find(tmpTarget) == sumMap.end()) {
-                    pair<int, int> p = make_pair(nums[i], nums[j]);
-                    vector<pair<int, int> > pairVec;
-                    pairVec.push_back(p);
-                    sumMap[tmpTarget] = pairVec;
-                } else {
-                    vector<pair<int, int> > pairVec = sumMap[tmpTarget];
-                    pair<int, int> p = make_pair(i, j);
-                    pairVec.push_back(p);
-                    sumMap[tmpTarget] = pairVec;
+                sumMap[tmpTarget].push_back(make_pair(i, j));
+            }
+        }
+        for (int i = 0; i < length - 3; ++i) {
+            if (i > 0 && nums[i] == nums[i-1]) {
+                continue;
+            }
+            for (int j = i+1; j < length-2; ++j) {
+                if (j > i+1 && nums[j] == nums[j-1]) {
+                    continue;
+                }
+                int tmpTarget = nums[i] + nums[j];
+                if ((target - tmpTarget) < tmpTarget) {
+                    break;
+                }
+                if (sumMap.find(target - tmpTarget) != sumMap.end()) {
+                    vector<pair<int, int> > pairVec = sumMap[target - tmpTarget];
+                    bool firstInsert = true;
+                    for (int k = 0; k < pairVec.size(); k++) {
+                        pair<int, int> p = pairVec[k];
+                        if (p.first <= j) {
+                            continue;
+                        }
+                        pair<int, int> prevP = pairVec[k-1];
+                        if (!firstInsert && nums[p.first] == nums[prevP.first] && nums[p.second] == nums[prevP.second]) {
+                            continue;
+                        }
+                        if (firstInsert || result.back()[2] != nums[p.first]) {
+                            vector<int> vec;
+                            vec.push_back(nums[i]);
+                            vec.push_back(nums[j]);
+                            vec.push_back(nums[p.first]);
+                            vec.push_back(nums[p.second]);
+                            result.push_back(vec);
+                            firstInsert = false;
+                        }
+                    }
                 }
             }
         }
-        for (auto iter = sumMap.begin(); iter != sumMap.end(); iter++) {
-            int tmpTarget = iter->first;
-            vector<pair<int, int> > pairVec1 = iter->second;
-            if ((target - tmpTarget == tmpTarget) && pairVec1.size() == 1) {
-                continue;
-            }
-            if (sumMap.find(target - tmpTarget) != sumMap.end()) {
-                vector<pair<int, int> > pairVec2 = sumMap[target - tmpTarget];
-                for (pair<int, int> p = pairVec2)
-            }
-        }
-
-
-
-        for (int i = 0; i < length-3; i++) {
-        	for (int j = i+1; j < length-2; j++) {
-        		int tmpTarget = target - nums[i] - nums[j];
-        		unordered_map<int, int> map;
-        		for (int k = j+1; k < length; k++) {
-        			if (map.find(nums[k]) == map.end()) {
-        				map[tmpTarget - nums[k]] = k;
-        			} else {
-        				int tmp = nums[map[nums[k]]];
-        				vector<int> res;
-        				res.push_back(nums[i]);
-        				res.push_back(nums[j]);
-        				res.push_back(nums[k]);
-        				res.push_back(tmp);
-        				sort(res.begin(), res.end());
-        				result.push_back(res);
-        			}
-        		}
-        	}
-        }
         return result;
+    }
+
+    void display(vector<int> vec) {
+        cout<<endl<<"===========vector:"<<endl;
+        for (int i = 0; i < vec.size(); i++) {
+            cout<<vec[i]<<" ";
+        }
+        cout<<endl;
     }
 };
 
