@@ -30,14 +30,14 @@ public:
         		}
         	}
         }
-        return minMinus;
+        return result;
     }
 };
 
 int main() {
 	Solution a;
-	int arr[] = {-1, 2, 1, -4};
-	vector<int> vec(arr, arr+4);
+	int arr[] = {0，0，0};
+	vector<int> vec(arr, arr+3);
 	int res = a.threeSumClosest(vec, 1);
 	cout<<res<<endl;
 	return 0;
