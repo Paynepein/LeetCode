@@ -14,7 +14,6 @@ public:
             tmpLength = j - i;
             map[s[i]] = i;
             for (; j < length; ++j) {
-                // if (j == 4) cout<<"b:"<<map['b']<<endl;
                 if (map.find(s[j]) != map.end() && map[s[j]] >= i && map[s[j]] < j) {
                     if (tmpLength > maxLength) {
                         start = i;
@@ -33,7 +32,6 @@ public:
                 start = i;
             }
         }
-        cout<<start<<" "<<maxLength<<endl;
         return maxLength;
     }
 };
