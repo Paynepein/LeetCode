@@ -17,12 +17,16 @@ public:
         		n /= 10;
         	}
         	sum += sqrt(n);
-        	if (sum == 1 || sum == 7) return true;
+        	if (sum < 10) {
+        		return (n == 1 || n == 7) ? true : false;
+        	}
         }
     }
 };
 
 int main() {
 	Solution a;
+	for (int i = 1; i < 20; i++)
+	    cout<<a.isHappy(i)<<endl;
 	return 0;
 }
