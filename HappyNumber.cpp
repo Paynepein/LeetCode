@@ -4,7 +4,7 @@ using namespace std;
 
 class Solution {
 public:
-	bool isHappyNumber(int n) {
+	bool isHappy(int n) {
 		int sum = n;
 		while (sum > 9) {
 			n = sum;
@@ -25,7 +25,7 @@ public:
 int main() {
 	Solution a;
 	for (int i = 0; i < 20; ++i) {
-		cout<<a.isHappyNumber(i)<<endl;
+		cout<<a.isHappy(i)<<endl;
 	}
 	return 0;
 }
