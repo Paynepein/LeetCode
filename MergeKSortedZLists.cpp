@@ -22,16 +22,21 @@ public:
         while (flag) {
         	val = numeric_limits<int>::max();
         	flag = false;
-        	for (int i = 0; i < num; ++i) {
-        		if (pLists[i] != NULL && pLists[i]->val < val) {
-        			val = pLists[i]->val;
-        			minimumIndex = i;
+        	for (vector<ListNode*>::iterator iter = pLists.begin(); iter != pLists.end();) {
+        		if (*iter == NULL) {
+        			iter = pLists.erase(iter);
+        		} else if ((*iter)->val < val) {
+        			val = (*iter)->val;
+        			minimumIndex = iter - pLists.begin();
         			flag = true;
+        			++iter;
+        		} else {
+        			++iter;
         		}
         	}
         	if (flag == true) {
-        		tmp->next = new ListNode(val);
-        		tmp = tmp->next;
+       			tmp->next = new ListNode(val);
+       			tmp = tmp->next;
         		pLists[minimumIndex] = pLists[minimumIndex]->next;
         	}
         }
