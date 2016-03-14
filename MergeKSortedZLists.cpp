@@ -20,6 +20,10 @@ public:
         int num = lists.size(), val, minimumIndex;
         bool flag = true;
         while (flag) {
+        	if (pLists.size() == 1) {
+        		tmp->next = pLists[0];
+        		break;
+        	}
         	val = numeric_limits<int>::max();
         	flag = false;
         	for (vector<ListNode*>::iterator iter = pLists.begin(); iter != pLists.end();) {
