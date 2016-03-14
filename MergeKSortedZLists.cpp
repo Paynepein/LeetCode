@@ -16,35 +16,25 @@ public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
         ListNode *result = new ListNode(0);
         ListNode *tmp = result;
-        vector<ListNode*> pLists(lists);
-        int num = lists.size(), val, minimumIndex;
-        bool flag = true;
-        while (flag) {
-        	if (pLists.size() == 1) {
-        		tmp->next = pLists[0];
-        		break;
-        	}
-        	val = numeric_limits<int>::max();
-        	flag = false;
-        	for (vector<ListNode*>::iterator iter = pLists.begin(); iter != pLists.end();) {
-        		if (*iter == NULL) {
-        			iter = pLists.erase(iter);
-        		} else if ((*iter)->val < val) {
-        			val = (*iter)->val;
-        			minimumIndex = iter - pLists.begin();
-        			flag = true;
-        			++iter;
-        		} else {
-        			++iter;
-        		}
-        	}
-        	if (flag == true) {
-       			tmp->next = new ListNode(val);
-       			tmp = tmp->next;
-        		pLists[minimumIndex] = pLists[minimumIndex]->next;
-        	}
-        }
+        int i = 2, num = lists.size();
+        while (i/2 < )
         return result->next;
+    }
+
+    ListNode* mergeTwoLists(ListNode *list1, ListNode *list2) {
+    	if (list1 == NULL) return list2;
+    	if (list2 == NULL) return list1;
+    	if (list1->val < list2->val) {
+    		ListNode *tmp = list1;
+    		tmp->next = mergeTwoLists(list1->next, list2);
+    		return tmp;
+    	} else {
+    		ListNode *tmp = list2;
+    		tmp->next = mergeTwoLists(list1, list2->next);
+    		return tmp;
+    	}
+    	return NULL;
+
     }
 };
 
