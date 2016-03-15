@@ -10,15 +10,27 @@ struct ListNode {
     ListNode *next;
     ListNode(int x) : val(x), next(NULL) {}
 };
+
+void des(ListNode* list) {
+	while (list != NULL) {
+		cout<<list->val<<"->";
+		list = list->next;
+	}
+	cout<<endl;
+}
  
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        ListNode *result = new ListNode(0);
-        ListNode *tmp = result;
         int i = 2, num = lists.size();
-        while (i/2 < )
-        return result->next;
+        if (num == 0) return NULL;
+        while (i/2 < num) {
+        	for (int j =0; j+i/2 < num; j += i) {
+        		lists[j] = mergeTwoLists(lists[j], lists[j+i/2]);
+        	}
+        	i *= 2;
+        }
+        return lists[0];
     }
 
     ListNode* mergeTwoLists(ListNode *list1, ListNode *list2) {
@@ -38,14 +50,6 @@ public:
     }
 };
 
-void des(ListNode* list) {
-	while (list != NULL) {
-		cout<<list->val<<"->";
-		list = list->next;
-	}
-	cout<<endl;
-}
-
 int main() {
 	Solution a;
 	ListNode *a1 = new ListNode(6);
@@ -61,9 +65,9 @@ int main() {
 	vec.push_back(a1);
 	vec.push_back(b1);
 	vec.push_back(c1);
-	des(a1);
-	des(b1);
-	des(c1);
+	// des(a1);
+	// des(b1);
+	// des(c1);
 	ListNode *res = a.mergeKLists(vec);
 	des(res);
 	return 0;
