@@ -13,7 +13,7 @@ class Solution {
 public:
 	void sortColors(vector<int>& nums) {
 		int i = -1, j = -1, k = -1;
-		int n == nums.size();
+		int n = nums.size();
 		for (int idx = 0; idx < n; ++idx) {
 			if (nums[idx] == 0) {
 				nums[++k] = 2;
