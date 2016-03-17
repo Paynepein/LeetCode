@@ -13,30 +13,14 @@ class Solution {
 public:
 	void sortColors(vector<int>& nums) {
 		int n = nums.size();
-		int i = 0, j = n-1;
-		for (; i < j;) {
-			if (nums[i] == 0) {
-				++i;
-			} else if (nums[j] != 0){
-				--j;
-			} else {
-				int tmp = nums[i];
-				nums[i] = nums[j];
-				nums[j] = tmp;
-			}
+		int index[] = {0,0,0};
+		for (int i = 0; i < n; ++i) {
+			++index[nums[i]];
 		}
-		for (j = n-1; i < j;) {
-			if (nums[i] == 1) {
-				++i;
-			} else if (nums[j] != 1){
-				--j;
-			} else {
-				int tmp = nums[i];
-				nums[i] = nums[j];
-				nums[j] = tmp;
-			}
+		int rw = index[0] + index[1];
+		for (int i = 0; i < n; ++i) {
+			nums[i] = i < index[0] ? 0 : (i < rw ? 1 : 2);
 		}
-		des(nums);
 	}
 };
 
