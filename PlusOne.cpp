@@ -12,21 +12,16 @@ void des(vector<int>& vec) {
 class Solution {
 public:
     vector<int> plusOne(vector<int>& digits) {
-        int n = digits.size(), c = 1, i = n-1;
-        for (; i >=0; --i) {
-        	digits[i] += c;
-        	c = digits[i] / 10;
-        	digits[i] = digits[i] % 10;
-        	if (c == 0) break;
-        }
-        if (i < 0 && c == 1) {
-        	digits.resize(n+1);
-        	while (n > 0) {
-        		digits[n] = digits[n-1];
-        		--n;
+        for (int i = digits.size()-1; i >=0; --i) {
+        	if (digits[i] == 9) {
+        		digits[i] = 0;
+        	} else {
+        		digits[i] += 1;
+        		return digits;
         	}
-        	digits[0] = 1;
         }
+        digits[0] = 1;
+        digits.push_back(0);
         return digits;
     }
 };
