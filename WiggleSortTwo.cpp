@@ -76,3 +76,4 @@ int main()
     // des(nums);
     return 0;
 }  
+>>>>>>> origin/master
