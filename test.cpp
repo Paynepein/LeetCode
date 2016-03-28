@@ -4,69 +4,124 @@ using namespace std;
 
 #define LL long long
 #define MO 1000000007
+typedef pair<int, int> PA;
 
-int dp[20][10][400], sg[20][10][400], bit[20];
-
+int bit[20];
 /**
- * less == -1:当前位是第一位
- * less == 1:前几位小
- * less == 0:前几位一样
+ * sign是否一致
  */
-int go(int dep, int pre, bool less, LL current, int remain, int sign) {
-	cout<<"when"<<dp[1][5][198]<<endl;
-	cout<<"dep:"<<dep<<" pre:"<<pre<<" less:"<<less<<" current:"<<current<<" remain:"<<remain<<" sign:"<<sign<<endl;
-	if (dep == -1) return remain == 0 ? cout<<"current:"<<current<<endl,current % MO : 0;
+int sg[20][400];
+/**
+ * PA.first:符合的数的个数
+ * PA.second:符合的数的和
+ */
+PA dp[20][400];
+
+PA go(int dep, int pre, bool less, int remain, int sign) {
+	// cout<<"when"<<dp[1][5][198]<<endl;
 	// cout<<"dep:"<<dep<<" pre:"<<pre<<" less:"<<less<<" current:"<<current<<" remain:"<<remain<<" sign:"<<sign<<endl;
-	if (pre != -1 && dp[dep+1][pre][remain+200] != -1 && sg[dep+1][pre][remain+200] == -1*sign) {
+	if (dep == -1) {
+		// cout<<"current:"<<current<<endl;
+		return remain == 0 ? make_pair(1, pre) : make_pair(0, 0);
+	}
+	// cout<<"dep:"<<dep<<" pre:"<<pre<<" less:"<<less<<" current:"<<current<<" remain:"<<remain<<" sign:"<<sign<<endl;
+	if (sg[dep][remain+200] == sign) {
 		// cout<<"log=================="<<endl<<dep+1<<" "<<pre<<" "<<current<<" "<<remain<<" "<<sign<<" "<<dp[dep+1][pre][remain+200]<<endl;
-		return dp[dep+1][pre][remain+200];
+		cout<<"dp"<<endl<<"dep:"<<dep<<" remain"<<remain<<" sign:"<<sign<<" value:"<<dp[dep][remain+200].second<<endl;
+		return dp[dep][remain+200];
 	}
-	LL res = 0;
 	if (less) {
-		for (int i = 0; i < 10; ++i) {
-			bool first = pre == -1 && i == 0;
-			cout<<"where:"<<dp[1][5][198]<<endl;
-			dp[dep][i][remain-sign*i+200] = go(dep-1, first == true ? -1 : i, true, current*10+i, remain-sign*i, first == true ? 1 : -1*sign);
-			sg[dep][i][remain-sign*i+200] = sign;
-			res += dp[dep][i][remain-sign*i+200];
-			cout<<"where:"<<dp[1][5][198]<<endl;
-			cout<<dep<<" "<<i<<" "<<remain-sign*i+200<<" "<<current<<endl;
-		}
-	} else {
-		for (int i = 0; i <= bit[dep]; ++i) {
-			bool first = pre == -1 && i == 0;
-			dp[dep][i][remain-sign*i+200] = go(dep-1, first == true ? -1 : i, i != bit[dep], current*10+i, remain-sign*i, first == true ? 1 : -1*sign);
-			sg[dep][i][remain-sign*i+200] = sign;
-			if (dep == 1 && i == 1 && remain-sign*i == 2) {
-				// cout<<"here++++++++++++++++++"<<endl<<dp[dep][i][remain-sign+200]<<endl;
-				// cout<<dp[1][1][202]<<endl;
+		sg[dep][remain+200] = sign;
+		PA& res = dp[dep][remain+200];
+		if (pre == 10) {
+			for (int i = 0; i < 10; ++i) {
+				PA tmp = go(dep-1, i == 0 ? 10 : i, true, remain-sign*i, i == 0 ? 1 : -1*sign);
+				res.first += tmp.first;
+				res.second += tmp.second;
 			}
-			res += dp[dep][i][remain-sign*i+200];
+		} else {
+			for (int i = 0; i < 10; ++i) {
+				PA tmp = go(dep-1, i, true, remain-sign*i, -1*sign);
+				res.first += tmp.first;
+				res.second += tmp.second;
+			}
 		}
+		int n = dep+1;
+		pre = pre == 10 ? 0 : pre;
+		while (n--) {
+			pre *= 10;
+		}
+		res.second += pre * res.first;
+		cout<<"dep:"<<dep<<" pre:"<<pre<<" remain:"<<remain<<" col:"<<res.first<<" after sum:"<<res.second<<endl;
+		// cout<<dp[0][201].second<<endl;
+		return res;
+	} else {
+		PA res = make_pair(0, 0);
+		for (int i = 0; i <= bit[dep]; ++i) {
+			PA tmp = go(dep-1, i, i != bit[dep], remain-sign*i, -1*sign);
+			res.first += tmp.first;
+			res.second += tmp.second;
+		}
+		int n = dep+1;
+		pre = pre == 10 ? 0 : pre;
+		while (n--) {
+			pre *= 10;
+		}
+		cout<<"before sum:"<<res.second<<endl;
+		res.second += pre * res.first;
+		cout<<"dep:"<<dep<<" pre:"<<pre<<" remain:"<<remain<<" col:"<<res.first<<" after sum:"<<res.second<<endl;
+		return res;
 	}
-	return res;
 }
 
 int solve(LL a, int k) {
+	if (a == 0) return 0;
 	int length = 0;
 	while (a) bit[length++] = a%10, a /= 10;
-	return go(length-1, -1, false, 0, k, 1);
+	PA res = make_pair(0, 0);
+	for (int i = 0; i <= bit[length-1]; ++i) {
+	// int i = 1;
+		PA tmp = go(length-2, i == 0 ? 10 : i, i != bit[length-1], k-i, i == 0 ? 1 : -1);
+		res.first += tmp.first;
+		res.second += tmp.second;
+		// cout<<tmp.second<<endl;
+	// i = 1;
+	// 	tmp = go(length-2, i == 0 ? 10 : i, i != bit[length-1], k-i, i == 0 ? 1 : -1);
+	// 	res.first += tmp.first;
+	// 	res.second += tmp.second;
+	// 	cout<<tmp.second<<endl;
+	}
+	// cout<<"dep1:"<<length-1<<" pre:"<<10<<" remain:"<<k<<" col:"<<res.first<<" sum:"<<res.second<<endl;
+	return res.second;
+}
+
+void diplayDP() {
+	for (int i = 0; i < 3; ++i) {
+		cout<<i<<endl;
+		for (int j = 0; j < 400; ++j) {
+			cout<<dp[i][j].second<<" ";
+		}
+		cout<<endl<<endl;
+	}
 }
 
 int main() {
-	memset(dp, -1, sizeof(dp));
+	memset(dp, 0, sizeof(dp));
+	memset(sg, 0, sizeof(sg));
 	LL left, right;
 	// int k;
 	// cin>>left>>right>>k;
-	left = 4344;
+	left = 121;
 	right = 121;//10^18
-	int k = 3;
+	int k = -1;
 	// cout<<solve(right, k)-solve(left-1, k)<<endl;
 
 	// cout<<"1:"<<solve(right, k)<<endl;
 	// cout<<dp[2][0][199]<<endl;
 	// cout<<dp[2][1][198]<<endl;
-	cout<<"2:"<<solve(left, k)<<endl;
+	cout<<solve(left, k)<<endl;
+	// diplayDP();
+	// cout<<dp[0][2][200].second<<" "<<dp[1][1][198].second<<endl;
 	// cout<<"3:"<<solve(left, k)<<endl;
 	// cout<<"4:"<<solve(left-1, k)<<endl;
 	return 0;
