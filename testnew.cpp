@@ -25,7 +25,7 @@ node dfs(int len, int dig, bool begin_zero, bool end_flag, int sum){
     t.s = 0, t.n = 0;  
     //超过边界值   
     if(len <= 0 || len >= 20 || dig < 0 || dig > 9 || sum < -200 || sum >= 200)  {
-        cout<<"dep:"<<len-1<<" pre:"<<dig<<" less:"<<!end_flag<<" sum:"<<sum<<" res.first:"<<dp[len][dig + (begin_zero?0:10)][sum+200].n<<" res.second:"<<dp[len][dig + (begin_zero?0:10)][sum+200].s<<endl;
+        // cout<<"dep:"<<len-1<<" pre:"<<dig<<" less:"<<!end_flag<<" sum:"<<sum<<" res.first:"<<dp[len][dig + (begin_zero?0:10)][sum+200].n<<" res.second:"<<dp[len][dig + (begin_zero?0:10)][sum+200].s<<endl;
         return t;  
     }
     //返回已有的DP结果，即记忆化搜索   
@@ -59,7 +59,7 @@ node dfs(int len, int dig, bool begin_zero, bool end_flag, int sum){
         t.s = ((t.s + tmp.s)%mod + ((tmp.n * dig )%mod * base[len-1])%mod)%mod;   
     }  
     if(!end_flag) dp[len][dig + (begin_zero?0:10)][sum+200] = t;  
-    cout<<"dep:"<<len-1<<" pre:"<<dig<<" less:"<<!end_flag<<" sum:"<<sum<<" res.first:"<<t.n<<" res.second:"<<t.s<<endl;
+    // cout<<"dep:"<<len-1<<" pre:"<<dig<<" less:"<<!end_flag<<" sum:"<<sum<<" res.first:"<<t.n<<" res.second:"<<t.s<<endl;
     return t;  
 }  
   
@@ -76,7 +76,7 @@ int solve(ll n, int s){
 }  
   
 int main(){  
-    ll l, r, s;  
+    ll left, right, k;  
     node t;  
     t.n = -1;  
     t.s = 0;  
@@ -84,8 +84,12 @@ int main(){
     base[0] = 1;  
     rep(i,1,21) base[i] = (base[i-1]*10)%mod;  
     // cin >> l >> r >> s;  
-    l = 1000, r = 3214567, s = 1;
+    left = 1199, right = 1200, k = 3;
     // cout <<(solve(r,s) - solve(l-1,s) + mod )%mod << endl;  
-    cout<<solve(l, s)<<endl;
+    int a = solve(left-1, k);
+    int b = solve(right, k);
+    cout<<"left-1="<<a<<" right="<<b<<" right-(left-1)="<<b-a<<endl;
+    // coout<<"dp[3][2][203]="<<dp[3][2][203]<<" dp[2][0][202]="<<dp[2][0][202]<<endl;
+    cout<<solve(1200, 3)-solve(999, 3)<<endl;
     return 0;  
 }  
