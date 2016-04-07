@@ -7,10 +7,12 @@ using namespace std;
 class Solution {
 public:
     string convert(string s, int numRows) {
+    	if (numRows < 2 || s.size() < 3) return s;
     	int length = s.size(), count = numRows*2-2;
         int column = length / count;
         int tmp = length % count;
-        column = column * 2 + (tmp == 0 ? 0 : (tmp <= numRows ? 1 : 2));
+        int colPerCount = count > numRows ? 2 : 1;
+        column = column * colPerCount + (tmp == 0 ? 0 : (tmp <= numRows ? 1 : 2));
         char **matrix = new char*[numRows];
         for (int i = 0; i < numRows; ++i) {
         	matrix[i] = new char[column];
@@ -20,7 +22,7 @@ public:
         for (int i = 0; i < length; ++i) {
         	col = (i+1) / count;
         	tmp = (i+1) % count;
-        	col = col * 2 + (tmp == 0 ? 0 : (tmp <= numRows ? 1 : 2)) - 1; 
+        	col = col * colPerCount + (tmp == 0 ? 0 : (tmp <= numRows ? 1 : 2)) - 1; 
         	row = tmp == 0 ? 1 : (tmp <= numRows ? (tmp-1) : (2*numRows-tmp-1));
         	matrix[row][col] = s[i];
         }
@@ -31,7 +33,6 @@ public:
         		if (matrix[i][j] != '\0') {
         			tmpResult[index++] = matrix[i][j];
         		}
-        		if (i == 0 || i == numRows-1) ++j;
         	}
         }
         tmpResult[index] = '\0';
@@ -42,6 +43,6 @@ public:
 
 int main() {
 	Solution a;
-	cout<<a.convert("PAYPALISHIRING", 3)<<endl;
+	cout<<a.convert("ABC", 2)<<endl;
 	return 0;
 }
