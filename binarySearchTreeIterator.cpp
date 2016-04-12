@@ -48,7 +48,7 @@ int main() {
 	root->right = r1;
 	r1->left = l2;
 	r1->right = r2;
-	BSTIterator i(NULL);
+	BSTIterator i(root);
 	while (i.hasNext()) cout<<i.next()<<endl;
 	return 0;
 }
