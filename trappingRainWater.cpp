@@ -15,7 +15,7 @@ public:
         	mini = height[i] < mini ? height[i] : mini;
         	maxi = height[i] > maxi ? height[i] : maxi;
         }
-        for (int i = 0; i < maxi+1; ++i) {
+        for (int i = 1; i < maxi+1; ++i) {
         	while (left < len && height[left] < i) ++left;
         	while (right >= 0 && height[right] < i) --right;
         	if (left <= right && i > 0) {
