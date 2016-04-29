@@ -36,7 +36,6 @@ public:
         			res.push_back(s + vec[j]);
         		}	
 			}
-        	// s = "";
 		}
 		return res;
 	}
