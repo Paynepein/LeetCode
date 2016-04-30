@@ -9,7 +9,6 @@ public:
         sort(candidates.begin(), candidates.end());
         vector<vector<int> > res;
         vector<int> vec;
-        // cout<<candidates[0]<<candidates[1]<<candidates[2]<<candidates[3]<<endl;
         combination(candidates, 0, candidates.size(), res, vec, target);
         return res;
     }
