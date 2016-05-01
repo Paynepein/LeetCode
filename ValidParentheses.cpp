@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stack>
 #include <unordered_map>
+#include <string>
 using namespace std;
 
 class Solution {
