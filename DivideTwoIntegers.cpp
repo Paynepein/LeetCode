@@ -6,19 +6,38 @@ using namespace std;
 class Solution {
 public:
     int divide(int dividend, int divisor) {
-    	if (divisor == 0) return numeric_limits<int>::max();
-    	if (divisor == 1) return dividend;
-    	if (dividend == 0) return 0;
-        int sign = 1;
-        if ((dividend > 0 && divisor < 0) || (dividend < 0 && divisor > 0)) sign = -1;
-        dividend = fabs(dividend);
-        divisor = fabs(divisor);
-        return dividend >= divisor ? (sign * (1 + divide(dividend - divisor, divisor))) : 0;
+    	if (divisor == 0) exit(1);
+    	int neg = (dividend ^ divisor) >> 31, res = 0;
+    	if (dividend == numeric_limits<int>::min()) {
+    		if (divisor == -1) return numeric_limits<int>::max();
+    		++res;
+    		dividend += fabs(divisor);
+    	}
+    	dividend = fabs(dividend);
+    	divisor = fabs(divisor);
+    	res = res + mydivide(dividend, divisor);
+    	if (neg) {
+    		res = ~res + 1;
+    	}
+    	return res;
+    }
+
+    int mydivide(unsigned int dividend, unsigned int divisor) {
+    	if (divisor == 0) exit(1);
+
+    	if (dividend < divisor) return 0;
+    	unsigned int res = 0, c = divisor, k = 0;
+    	for (; dividend >= c && k < 100; c <<= 1, ++k) {
+    		if (dividend - c < divisor) {
+    			return 1 << k;
+    		}
+    	}
+    	return mydivide(dividend- (c>>1), divisor) + (1 << (k-1));
     }
 };
 
 int main() {
 	Solution a;
-	cout<<a.divide(2147483647, 1)<<endl;
+	cout<<a.divide(-0, 1)<<endl;
 	return 0;
 }
