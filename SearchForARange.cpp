@@ -10,7 +10,7 @@ public:
         if (len == 0) return res;
         int l = 0, r = len - 1, m = 0;
         while (l < r) {
-        	m = (l + r) >> 2;
+        	m = (l + r) >> 1;
         	if (nums[m] < target) l = m+1;
         	else r = m; 
         }
@@ -18,7 +18,7 @@ public:
         res[0] = l;
         r = len - 1;
         while (l < r) {
-        	m = (l + r) >> 2 + 1;
+        	m = ((l + r) >> 1) + 1;
         	if (nums[m] > target) r = m-1;
         	else l = m;
         }
@@ -28,5 +28,9 @@ public:
 };
 
 int main() {
+    Solution a;
+    int arr[] = {1,2,3};
+    vector<int> num(arr,arr+sizeof(arr)/sizeof(int));
+    a.searchRange(num, 2);
 	return 0;
 }
