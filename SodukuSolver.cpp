@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <string>
 using namespace std;
 
 class Solution {
@@ -46,7 +47,7 @@ public:
     	int nextJ = j < (len-1) ? (j+1) : 0;
     	int nextI = j < (len-1) ? i : (i+1);
     	if (board[i][j] != '.') {
-    		if (j == (len-1) && i == (len-1)) return true;
+    		if (nextI == len) return true;
     		return solveSudokuDFS(board, unused1, unused2, unused3, nextI, nextJ, len);
     	}
     	int num = board[i][j] - '0';
@@ -60,8 +61,8 @@ public:
     		it2 = find(vec2.begin(), vec2.end(), n);
     		it3 = find(vec3.begin(), vec3.end(), n);
     		if (it1 != vec1.end() && it2 != vec2.end() && it3 != vec3.end()) {
-    			if (nextI == len) return true;
     			board[i][j] = n + '0';
+                if (nextI == len) return true;
     			vec1.erase(it1);
     			vec2.erase(it2);
     			vec3.erase(it3);
@@ -69,6 +70,7 @@ public:
     				vec1.push_back(n);
     				vec2.push_back(n);
     				vec3.push_back(n);
+                    board[i][j] = '.';
     				continue;
     			}
     			return true;
@@ -79,5 +81,35 @@ public:
 };
 
 int main() {
+    char s1[] = {'.', '.', '9', '7', '4', '8', '.', '.', '.'};
+    char s2[] = {'7', '.', '.', '.', '.', '.', '.', '.', '.'};
+    char s3[] = {'.', '2', '.', '1', '.', '9', '.', '.', '.'};
+    char s4[] = {'.', '.', '7', '.', '.', '.', '2', '4', '.'};
+    char s5[] = {'.', '6', '4', '.', '1', '.', '5', '9', '.'};
+    char s6[] = {'.', '9', '8', '.', '.', '.', '3', '.', '.'};
+    char s7[] = {'.', '.', '.', '8', '.', '3', '.', '2', '.'};
+    char s8[] = {'.', '.', '.', '.', '.', '.', '.', '.', '6'};
+    char s9[] = {'.', '.', '.', '2', '7' ,'5', '9', '.', '.'};
+    vector<char> v1(s1, s1+9);
+    vector<char> v2(s2, s2+9);
+    vector<char> v3(s3, s3+9);
+    vector<char> v4(s4, s4+9);
+    vector<char> v5(s5, s5+9);
+    vector<char> v6(s6, s6+9);
+    vector<char> v7(s7, s7+9);
+    vector<char> v8(s8, s8+9);
+    vector<char> v9(s9, s9+9);
+    vector<vector<char> > vec;
+    vec.push_back(v1);
+    vec.push_back(v2);
+    vec.push_back(v3);
+    vec.push_back(v4);
+    vec.push_back(v5);
+    vec.push_back(v6);
+    vec.push_back(v7);
+    vec.push_back(v8);
+    vec.push_back(v9);
+    Solution a;
+    a.solveSudoku(vec);
 	return 0;
 }
