@@ -1,7 +1,11 @@
 #include <iostream>
 #include <string>
+#include <algorithm>
 using namespace std;
 
+/**
+ * origin solution
+ */
 class Solution {
 public:
     string multiply(string num1, string num2) {
@@ -54,6 +58,29 @@ public:
             res = cc + res;
         }
         return res;
+    }
+};
+
+/**
+ * improved solution
+ */
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+        int len1 = num1.size(), len2 = num2.size();
+        string res(len1+len2, '0');
+        int carry = 0, mul = 0, sum = 0;
+        for (int i = len1-1; i >= 0; --i) {
+            carry = 0;
+            for (int j = len2-1; j >= 0; --j) {
+                mul = res[i + j + 1] - '0' + (num1[i] - '0') * (num2[j] - '0') + carry;
+                res[i + j + 1] = mul % 10 + '0';
+                carry = mul / 10;
+            }
+            res[i] += carry;
+        }
+        int start = res.find_first_not_of("0");
+        return start == string::npos ? "0" : res.substr(start, res.size()-start);
     }
 };
 
