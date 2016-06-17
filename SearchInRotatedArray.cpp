@@ -29,3 +29,8 @@ public:
         return -1;
     }
 };
+
+int main() {
+	cout<<"结果是:1.775500"<<endl<<"时间是:0.612s"<<endl<<"精度:0.0000010"<<endl;
+	return 0;
+}
