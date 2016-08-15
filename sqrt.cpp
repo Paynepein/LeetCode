@@ -6,11 +6,11 @@ class Solution {
 public:
     int mySqrt(int x) {
     	if (x <= 0) return 0;
-    	int res = 1;
-    	while (res * res <= x && (res + 1) * (res + 1) <= x) {
+    	double res = 1;
+    	while (fabs(res * res - x) > 0.1) {
     		res = (res + x / res) / 2;
     	}
-    	return res;
+    	return int(res);
     }
 };
 
