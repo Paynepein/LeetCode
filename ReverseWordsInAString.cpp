@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
 class Solution {
@@ -12,19 +13,26 @@ public:
 				--i;
 			}
 		}
-		int l1 = 0, l2 = 0, r1 = len-1, r2 = len-1;
-		while (l2 < r1) {
-			while (l1 < r1 && isspace(s[l1])) ++l1;
-			l2 = l1;
-			while (l2 < r1 && !isspace(s[l2])) ++l2;
-			while (r2 > l2 && isspace(s[r2])) --r2;
-			r1 = r2;
-			while (r1 > l2 && !isspace(s[r1])) --r1;
+		for (int i = 0; i < len / 2; ++i) {
+			char c = s[i];
+			s[i] = s[len-1-i];
+			s[len-1-i] = c;
 		}
-		return s;
+		int l1 = 0, l2 = 0;
+		while (l1 < len) {
+			l2 = s.find_first_of(" ", l1);
+			l2 = l2 == string::npos ? (len-1) : (l2-1);
+			for (int i = l1; i < (l2+l1+1) / 2; ++i) {
+				swap(s[i], s[l2+l1-i]);
+			}
+			l1 = l2 + 2;
+		}
     }
 };
 
 int main() {
+	string s("1234");
+	s.resize(1);
+	cout<<s<<endl;
 	return 0;
 }
