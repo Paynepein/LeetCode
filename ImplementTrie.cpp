@@ -18,6 +18,7 @@ public:
 
     // Inserts a word into the trie.
     void insert(string word) {
+        if (search(word)) return;
         int len = word.size();
         TrieNode *p = root;
         for (int i = 0; i < len; ++i) {
