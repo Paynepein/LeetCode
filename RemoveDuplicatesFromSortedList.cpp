@@ -1,3 +1,5 @@
+#include <iostream>
+using namespace std;
 /**
   Definition for singly-linked list.
  */
@@ -10,19 +12,20 @@
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
-    	ListNode *header = new ListNode(-1), *p = head, *q = header;
-    	while (p) {
-    		if (p->next == nullptr || p->val != p->next->val) {
-    			q->next = p;
-    			q = p;
-    			p = p->next;
-    		} else {
-    			ListNode *tmp = p;
-    			while (p->next && p->next->val == p->val) p = p->next;
-    			if (tmp != p && tmp->val == p->val) p = p->next;	
-    		}
-    	}
-    	q->next = nullptr;
-    	return header->next;
+        ListNode *curr = head;
+        while (curr) {
+        	while (curr->next && curr->next->val == curr->val)
+        		curr->next = curr->next->next;
+        	curr = curr->next;
+        }
+        return head;
     }
 };
+
+int main() {
+	Solution a;
+	ListNode *head = new ListNode(1);
+	head->next = new ListNode(1);
+	head = a.deleteDuplicates(head);
+	return 0;
+}
