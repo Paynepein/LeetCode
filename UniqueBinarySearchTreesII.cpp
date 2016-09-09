@@ -30,7 +30,6 @@ public:
 				curr_ptr->right = new TreeNode(i);
 				ptr_res2->push_back(tree);
 			}
-			cout<<ptr_res2->size()<<endl;
 			swap(ptr_res1, ptr_res2);
         }
         return *ptr_res1;
