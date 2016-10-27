@@ -15,7 +15,6 @@ public:
         sort(nums.begin(), nums.end(), compareHelper);
         string res = "";
         for (int num : nums) {
-            cout<<num<<endl;
         	res += to_string(num);
         }
         int i = 0;
