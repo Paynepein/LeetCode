@@ -34,6 +34,7 @@ public:
             }
         }
         onStack[i] = false;
+        
         vec.push_back(i);
         return true;
     }
